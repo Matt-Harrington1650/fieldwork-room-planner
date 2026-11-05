@@ -1,0 +1,247 @@
+{
+  "$defs": {
+    "Door": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        },
+        "width": {
+          "exclusiveMinimum": 0,
+          "maximum": 10000,
+          "title": "Width",
+          "type": "number"
+        },
+        "angle": {
+          "default": 0,
+          "title": "Angle",
+          "type": "number"
+        },
+        "sweep": {
+          "default": 90,
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Sweep",
+          "type": "number"
+        },
+        "egress": {
+          "default": true,
+          "title": "Egress",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "x",
+        "y",
+        "width"
+      ],
+      "title": "Door",
+      "type": "object"
+    },
+    "Obstacle": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "default": "column",
+          "title": "Kind",
+          "type": "string"
+        },
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        },
+        "width": {
+          "exclusiveMinimum": 0,
+          "maximum": 50000,
+          "title": "Width",
+          "type": "number"
+        },
+        "depth": {
+          "exclusiveMinimum": 0,
+          "maximum": 50000,
+          "title": "Depth",
+          "type": "number"
+        },
+        "bottom": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Bottom",
+          "type": "number"
+        },
+        "top": {
+          "default": 10000,
+          "exclusiveMinimum": 0,
+          "title": "Top",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "x",
+        "y",
+        "width",
+        "depth"
+      ],
+      "title": "Obstacle",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "defined": {
+      "default": true,
+      "title": "Defined",
+      "type": "boolean"
+    },
+    "width": {
+      "maximum": 50000,
+      "minimum": 610,
+      "title": "Width",
+      "type": "number"
+    },
+    "depth": {
+      "maximum": 50000,
+      "minimum": 610,
+      "title": "Depth",
+      "type": "number"
+    },
+    "notch": {
+      "default": 0,
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Notch",
+      "type": "number"
+    },
+    "door": {
+      "default": 1100,
+      "maximum": 2000,
+      "minimum": 600,
+      "title": "Door",
+      "type": "number"
+    },
+    "column": {
+      "default": true,
+      "title": "Column",
+      "type": "boolean"
+    },
+    "height": {
+      "default": 3048,
+      "exclusiveMinimum": 0,
+      "maximum": 30000,
+      "title": "Height",
+      "type": "number"
+    },
+    "boundary": {
+      "anyOf": [
+        {
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "maxItems": 200,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Boundary"
+    },
+    "holes": {
+      "items": {
+        "items": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        },
+        "type": "array"
+      },
+      "maxItems": 50,
+      "title": "Holes",
+      "type": "array"
+    },
+    "doors": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/Door"
+          },
+          "maxItems": 50,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Doors"
+    },
+    "obstacles": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/Obstacle"
+          },
+          "maxItems": 100,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Obstacles"
+    },
+    "access_width": {
+      "default": 914.4,
+      "exclusiveMinimum": 0,
+      "maximum": 5000,
+      "title": "Access Width",
+      "type": "number"
+    },
+    "check_access": {
+      "default": false,
+      "title": "Check Access",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "width",
+    "depth"
+  ],
+  "title": "Room",
+  "type": "object"
+}

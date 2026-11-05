@@ -1,0 +1,11 @@
+fastapi==0.115.12
+uvicorn==0.34.2
+shapely==2.1.1
+ortools==9.14.6206
+ezdxf==1.4.2
+pydantic==2.14.2
+pytest==8.3.5
+httpx==0.28.1
+reportlab==4.4.1
+openpyxl==3.1.5
+pypdfium2==5.14.0

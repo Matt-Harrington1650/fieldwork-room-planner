@@ -1,0 +1,13 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {seed,parseProject,footprint,workingZone,overlaps,validateLocal,svgExport} from '../apps/web/src/domain.ts';
+test('portable project round-trip preserves millimeters',()=>{assert.deepEqual(parseProject(JSON.stringify(seed)),seed);});
+test('seed design has no implemented hard failures',()=>{assert.equal(validateLocal(seed).filter(f=>f.severity==='error').length,0);});
+for(const rotation of [0,90,180,270])test(`rotation ${rotation}: correct footprint area and separate front space`,()=>{const e={...seed.equipment[0],rotation};const f=footprint(e),w=workingZone(e);assert.equal(f.w*f.h,e.width*e.depth);assert.equal(overlaps(f,w),false);});
+test('unknown manufacturer requirements remain unresolved',()=>{assert.equal(validateLocal(seed).filter(f=>f.rule_id==='MFR-REAR-UNKNOWN').length,5);});
+test('draft contextual depth failure appears live',()=>{const p=structuredClone(seed);p.equipment[0].working=1000;assert.ok(validateLocal(p).some(f=>f.rule_id==='NEC2023-110.26-A1'));});
+test('entered rear zone cannot extend into wall',()=>{const p=structuredClone(seed);p.equipment[1].rear=500;assert.ok(validateLocal(p).some(f=>f.rule_id==='MFR-REAR'));});
+test('duplicate IDs rejected on import',()=>{const p=structuredClone(seed);p.equipment.push(p.equipment[0]);assert.throws(()=>parseProject(JSON.stringify(p)));});
+test('unsafe label IDs rejected on import',()=>{const p=structuredClone(seed);p.equipment[0].id='=1+1';assert.throws(()=>parseProject(JSON.stringify(p)));});
+test('invalid architecture rejected',()=>{const p=structuredClone(seed);p.room.width=2000;assert.throws(()=>parseProject(JSON.stringify(p)));});
+test('SVG export is vector-native with world coordinate inversion',()=>{const result=svgExport(seed);assert.ok(result.includes('scale(1 -1)'));assert.ok(result.includes('SWBD-1'));assert.ok(!result.includes('<image'));});

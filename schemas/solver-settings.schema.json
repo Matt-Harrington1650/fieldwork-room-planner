@@ -1,0 +1,74 @@
+{
+  "properties": {
+    "grid_mm": {
+      "default": 101.6,
+      "enum": [
+        10,
+        25,
+        50,
+        100,
+        12.7,
+        25.4,
+        50.8,
+        101.6
+      ],
+      "title": "Grid Mm"
+    },
+    "max_time_seconds": {
+      "default": 10,
+      "maximum": 30,
+      "minimum": 1,
+      "title": "Max Time Seconds",
+      "type": "integer"
+    },
+    "random_seed": {
+      "default": 481516,
+      "maximum": 2147483647,
+      "minimum": 0,
+      "title": "Random Seed",
+      "type": "integer"
+    },
+    "return_limit": {
+      "default": 3,
+      "maximum": 3,
+      "minimum": 1,
+      "title": "Return Limit",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "explore",
+      "enum": [
+        "explore",
+        "improve",
+        "repair"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "selected_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Selected Ids",
+      "type": "array"
+    },
+    "objective": {
+      "default": "preserve",
+      "enum": [
+        "preserve",
+        "access",
+        "future",
+        "balanced"
+      ],
+      "title": "Objective",
+      "type": "string"
+    },
+    "job_id": {
+      "default": "",
+      "title": "Job Id",
+      "type": "string"
+    }
+  },
+  "title": "Settings",
+  "type": "object"
+}

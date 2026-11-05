@@ -1,0 +1,12 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';
+import {seed,parseProject} from '../apps/web/src/domain.ts';
+import {migrate,align,translate,gapTargets,setWallGap,sideZone,doorPoints,signedArea,selectionBounds,scheduleCSV,snapMove} from '../apps/web/src/planner.ts';
+const p=migrate(structuredClone(seed));
+test('legacy migration preserves physical placement and defines editable architecture',()=>{assert.deepEqual(p.equipment.map(e=>[e.x,e.y,e.width,e.depth]),seed.equipment.map(e=>[e.x,e.y,e.width,e.depth]));assert.equal(p.room.doors.length,1);assert.equal(p.room.obstacles.length,1);assert.equal(parseProject(JSON.stringify(p)).equipment.length,5);});
+test('multi-selection alignment preserves footprint sizes',()=>{const items=align(p.equipment,'left');assert.ok(items.every(e=>e.x===600));assert.deepEqual(items.map(e=>[e.width,e.depth]),p.equipment.map(e=>[e.width,e.depth]));});
+test('locked objects never move',()=>{const e={...p.equipment[0],locked:true};assert.equal(translate([e],500,500)[0].x,e.x);assert.equal(align([e,p.equipment[1]],'right')[0].x,e.x);});
+test('gaps identify walls and obstructing neighbors',()=>{const gaps=gapTargets(p,p.equipment[0]);assert.ok(gaps.some(g=>g.side==='west'&&g.target.startsWith('Wall')));assert.ok(gaps.some(g=>g.side==='east'&&g.target==='ATS-1'));});
+test('precise wall gap does not resize object',()=>{const e=setWallGap(p,p.equipment[0],'west',152.4);assert.equal(e.x,152.4);assert.equal(e.width,p.equipment[0].width);});
+test('door sweep approximates quarter circle, not a square',()=>{const pts=doorPoints({id:'D',x:0,y:0,width:1000,angle:0,sweep:90,egress:true});assert.ok(Math.abs(signedArea(pts)-Math.PI*1e6/4)<500);});
+test('imperial schedule has explicit inches and provenance',()=>{const csv=scheduleCSV(p);assert.ok(csv.includes('Width (in)'));assert.ok(csv.includes('Source'));assert.ok(!csv.includes('(mm)'));});
+test('relative snapping retains exact existing offsets',()=>{const snap=snapMove(p,[p.equipment[0]],25,0,25.4,0,true);assert.equal(snap.x,25.4);});

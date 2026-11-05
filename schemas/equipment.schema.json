@@ -1,0 +1,263 @@
+{
+  "$defs": {
+    "Zone": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "service",
+            "ventilation",
+            "removal",
+            "future",
+            "buffer"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "side": {
+          "enum": [
+            "front",
+            "rear",
+            "left",
+            "right",
+            "top",
+            "bottom"
+          ],
+          "title": "Side",
+          "type": "string"
+        },
+        "distance": {
+          "maximum": 20000,
+          "minimum": 0,
+          "title": "Distance",
+          "type": "number"
+        },
+        "hard": {
+          "default": true,
+          "title": "Hard",
+          "type": "boolean"
+        },
+        "source": {
+          "default": "",
+          "title": "Source",
+          "type": "string"
+        },
+        "bottom": {
+          "default": 0,
+          "title": "Bottom",
+          "type": "number"
+        },
+        "top": {
+          "default": 10000,
+          "title": "Top",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "side",
+        "distance"
+      ],
+      "title": "Zone",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Id",
+      "type": "string"
+    },
+    "category": {
+      "enum": [
+        "switchboard",
+        "switchgear",
+        "panelboard",
+        "transformer",
+        "ats",
+        "ups",
+        "disconnect",
+        "custom"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "name": {
+      "maxLength": 200,
+      "title": "Name",
+      "type": "string"
+    },
+    "x": {
+      "maximum": 100000,
+      "minimum": -100000,
+      "title": "X",
+      "type": "number"
+    },
+    "y": {
+      "maximum": 100000,
+      "minimum": -100000,
+      "title": "Y",
+      "type": "number"
+    },
+    "width": {
+      "exclusiveMinimum": 0,
+      "maximum": 20000,
+      "title": "Width",
+      "type": "number"
+    },
+    "depth": {
+      "exclusiveMinimum": 0,
+      "maximum": 20000,
+      "title": "Depth",
+      "type": "number"
+    },
+    "rotation": {
+      "default": 0,
+      "enum": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "title": "Rotation",
+      "type": "integer"
+    },
+    "locked": {
+      "default": false,
+      "title": "Locked",
+      "type": "boolean"
+    },
+    "working": {
+      "default": 1000,
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Working",
+      "type": "number"
+    },
+    "rear": {
+      "anyOf": [
+        {
+          "maximum": 10000,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rear"
+    },
+    "voltage": {
+      "default": 120,
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Voltage",
+      "type": "integer"
+    },
+    "condition": {
+      "default": 1,
+      "enum": [
+        1,
+        2,
+        3
+      ],
+      "title": "Condition",
+      "type": "integer"
+    },
+    "status": {
+      "default": "generic",
+      "enum": [
+        "generic",
+        "user_entered",
+        "unknown",
+        "verified"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "wall": {
+      "default": "any",
+      "enum": [
+        "any",
+        "north",
+        "east",
+        "south",
+        "west"
+      ],
+      "title": "Wall",
+      "type": "string"
+    },
+    "height": {
+      "default": 2133.6,
+      "exclusiveMinimum": 0,
+      "maximum": 20000,
+      "title": "Height",
+      "type": "number"
+    },
+    "bottom": {
+      "default": 0,
+      "maximum": 20000,
+      "minimum": 0,
+      "title": "Bottom",
+      "type": "number"
+    },
+    "zones": {
+      "items": {
+        "$ref": "#/$defs/Zone"
+      },
+      "maxItems": 30,
+      "title": "Zones",
+      "type": "array"
+    },
+    "group": {
+      "default": "",
+      "title": "Group",
+      "type": "string"
+    },
+    "definition": {
+      "default": "",
+      "title": "Definition",
+      "type": "string"
+    },
+    "source": {
+      "default": "",
+      "title": "Source",
+      "type": "string"
+    },
+    "manufacturer": {
+      "default": "",
+      "title": "Manufacturer",
+      "type": "string"
+    },
+    "model": {
+      "default": "",
+      "title": "Model",
+      "type": "string"
+    },
+    "panelSwing": {
+      "default": 0,
+      "maximum": 180,
+      "minimum": 0,
+      "title": "Panelswing",
+      "type": "number"
+    }
+  },
+  "required": [
+    "id",
+    "category",
+    "name",
+    "x",
+    "y",
+    "width",
+    "depth"
+  ],
+  "title": "Equipment",
+  "type": "object"
+}
